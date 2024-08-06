@@ -41,7 +41,9 @@ defmodule Precuter do
       {pre, cond, post} ->
         body = Function.get_body(env, name, args)
         original_func = Function.generate_reimplemented_func(name, args, guards, body)
-        replaced_func = Function.generate_replacement_func(name, Args.purify_args(args), pre, cond, post)
+
+        replaced_func =
+          Function.generate_replacement_func(name, Args.purify_args(args), pre, cond, post)
 
         Module.delete_attribute(env.module, :precuter)
         true = Module.delete_definition(env.module, {name, length(args)})
@@ -61,10 +63,9 @@ defmodule Precuter do
   end
 
   defp generate_decorator_functions(func_ref) when is_tuple(func_ref),
-       do: {func_ref, nil, nil}
+    do: {func_ref, nil, nil}
 
   defp generate_decorator_functions(_), do: nil
 
   def empty, do: true
-
 end

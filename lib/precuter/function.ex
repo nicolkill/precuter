@@ -1,5 +1,4 @@
 defmodule Precuter.Function do
-
   def get_body(env, name, args) do
     case Module.get_definition(env.module, {name, length(args)}) do
       {_, :def, _, [{_, _args, _guards, {:__block__, _, body}}]} ->
@@ -29,10 +28,12 @@ defmodule Precuter.Function do
     quote do
       def unquote(name)(unquote_splicing(args)) do
         mfa_exec(unquote(pre), unquote(args))
+
         result =
           if mfa_exec(unquote(cond), unquote(args)) do
             __impl_direct_call__(unquote(name), unquote_splicing(args))
           end
+
         mfa_exec(unquote(post), unquote(args))
         result
       end

@@ -24,7 +24,7 @@ defmodule PrecuterTest do
     assert PrecuterTest.ModuleTest.example_post_func(4) == 8
     assert :erlang.get(:test_value) == 40
   end
-  
+
   defmodule PrecuterRunner do
     def my_func_pre(_some_arg, args) do
       :erlang.put(:test_value, args)
@@ -63,10 +63,12 @@ defmodule PrecuterTest do
       some_number * 2
     end
 
-    @precuter [pre: {PrecuterRunner, :my_func_pre, [:an_arg, :args]}, post: {PrecuterRunner, :my_func_post, [:an_post_arg]}]
+    @precuter [
+      pre: {PrecuterRunner, :my_func_pre, [:an_arg, :args]},
+      post: {PrecuterRunner, :my_func_post, [:an_post_arg]}
+    ]
     def example_post_func(some_number) do
       some_number * 2
     end
-
   end
 end
